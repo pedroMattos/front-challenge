@@ -14,11 +14,20 @@
     <h1>Pokémons</h1>
     <v-layout row>
       <v-flex align-self-center xs2 v-for="(pokemon, index) in filteredPokemons.length > 0 ? filteredPokemons : pokemonsList" :key="index">
-        <router-link :to="{ name: 'pokeDetail' }">
+        <router-link :to="{ name: 'pokeDetail', query: { pokemon: pokemon.pokeName } }">
           <pokemon-cards :value="pokemon" />
         </router-link>
       </v-flex>
     </v-layout>
+
+    <br>
+
+    <p class="centralizer">
+      <v-progress-circular
+        indeterminate
+        color="primary"
+      ></v-progress-circular>
+    </p>
   </v-container>
 </template>
 
@@ -30,6 +39,15 @@ import pokemonCards from '../components/card'
     },
     beforeMount() {
       this.$store.dispatch('getPokemons')
+    },
+    mounted() {
+      window.addEventListener('scroll',()=>{
+        if(window.scrollY + window.innerHeight >= 
+          document.documentElement.scrollHeight) {
+            this.$store.commit('changeActualPage')
+            this.$store.dispatch('getPokemons')
+        }
+      })
     },
     computed: {
       pokemonsList() {
@@ -61,5 +79,11 @@ import pokemonCards from '../components/card'
 h1 {
   margin-left: 15px;
   margin-bottom: 38px;
+}
+.centralizer {
+  text-align: center;
+}
+a {
+  text-decoration: none;
 }
 </style>

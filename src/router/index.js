@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import PokeDetail from '../views/PokeDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -12,6 +13,15 @@ const routes = [
       default: HomeView,
       Header: require('../components/header').default
     }
+  },
+  {
+    path: '/poke-detail',
+    name: 'pokeDetail',
+    components: {
+      default: PokeDetail,
+      Header: require('../components/header').default
+    },
+    query: { pokemon: '?' }
   },
 ]
 

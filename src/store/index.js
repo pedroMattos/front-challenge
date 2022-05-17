@@ -14,8 +14,8 @@ export default new Vuex.Store({
     pokemonsList: (state) => state.pokemonsList
   },
   mutations: {
-    changeActualPage: (state, payload) => {
-      state.actualPage = payload;
+    changeActualPage: (state) => {
+      state.actualPage += 26;
     },
     pokemonsList: (state, payload) => {
       state.pokemonsList = payload;
@@ -35,16 +35,14 @@ export default new Vuex.Store({
       })
     },
     getPokemons({ state, dispatch }) {
-      if (state.pokemonsList.length == 0) {
-        let page = state.actualPage
-      
-        axios.get(`https://pokeapi.co/api/v2/pokemon?limit=50&offset=${page}`).then(res => {
-          let results = res.data.results
-          results.forEach(pokemon => {
-            dispatch('getPokemonDetail', pokemon)
-          });
-        })
-      }
+      let page = state.actualPage
+    
+      axios.get(`https://pokeapi.co/api/v2/pokemon?limit=24&offset=${page}`).then(res => {
+        let results = res.data.results
+        results.forEach(pokemon => {
+          dispatch('getPokemonDetail', pokemon)
+        });
+      })
     },
   },
   modules: {
